@@ -1,5 +1,18 @@
 #!/usr/bin/env bash
 
+###############################################################################
+#
+# Nevolus Zabbix Installer (NZI)
+#
+# Autor....: Bryan Carvalho
+# Empresa..: Nevolus
+#
+###############################################################################
+
+########################################
+# Informações do Script
+########################################
+
 readonly SCRIPT_NAME="Nevolus Zabbix Installer"
 readonly SCRIPT_VERSION="1.0.0"
 
@@ -8,8 +21,21 @@ readonly SCRIPT_COMPANY="Nevolus"
 
 readonly SCRIPT_DOMAIN="monitoramento.centralserver.com.br"
 
-# Variáveis de execução
+########################################
+# Configuração do Zabbix
+########################################
+
+readonly ZABBIX_VERSION="7.4"
+
+readonly ZABBIX_SERVER="node01.centralserver.com.br,node02.centralserver.com.br"
+
+########################################
+# Variáveis de Execução
+########################################
+
 OS=""
-VERSION=""
+OS_VERSION=""
+OS_MAJOR_VERSION=""
 PACKAGE_MANAGER=""
 INSTALL_MODE=""
+HOSTNAME_ZABBIX=""
