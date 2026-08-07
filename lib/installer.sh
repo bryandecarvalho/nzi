@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
 ########################################
-# Seleciona a versão do Zabbix
+# Seleciona automaticamente a versão
+# do Zabbix conforme o Sistema Operacional
 ########################################
 
 select_zabbix_version() {
@@ -45,14 +46,19 @@ install_repository() {
             REPO_URL="https://repo.zabbix.com/zabbix/${ZABBIX_VERSION}/release/alma/${OS_MAJOR_VERSION}/noarch/zabbix-release-latest-${ZABBIX_VERSION}.el${OS_MAJOR_VERSION}.noarch.rpm"
             ;;
 
-        "Rocky Linux"|"Red Hat Enterprise Linux"|"Oracle Linux"|"CloudLinux")
+        "Rocky Linux"|"Red Hat Enterprise Linux"|"Oracle Linux")
 
-            REPO_URL="https://repo.zabbix.com/zabbix/${ZABBIX_VERSION}/release/rhel/${OS_MAJOR_VERSION}/noarch/zabbix-release-latest-${ZABBIX_VERSION}.el${OS_MAJOR_VERSION}.noarch.rpm"
+            REPO_URL="https://repo.zabbix.com/zabbix/${ZABBIX_VERSION}/rhel/${OS_MAJOR_VERSION}/x86_64/zabbix-release-latest-${ZABBIX_VERSION}.el${OS_MAJOR_VERSION}.noarch.rpm"
+            ;;
+
+        "CloudLinux")
+
+            REPO_URL="https://repo.zabbix.com/zabbix/${ZABBIX_VERSION}/rhel/${OS_MAJOR_VERSION}/x86_64/zabbix-release-latest-${ZABBIX_VERSION}.el${OS_MAJOR_VERSION}.noarch.rpm"
             ;;
 
         "CentOS")
 
-            REPO_URL="https://repo.zabbix.com/zabbix/${ZABBIX_VERSION}/release/centos/${OS_MAJOR_VERSION}/noarch/zabbix-release-latest-${ZABBIX_VERSION}.el${OS_MAJOR_VERSION}.noarch.rpm"
+            REPO_URL="https://repo.zabbix.com/zabbix/${ZABBIX_VERSION}/rhel/${OS_MAJOR_VERSION}/x86_64/zabbix-release-latest-${ZABBIX_VERSION}.el${OS_MAJOR_VERSION}.noarch.rpm"
             ;;
 
         "Ubuntu")
@@ -92,20 +98,30 @@ install_repository() {
 
     esac
 
+    info "URL: ${REPO_URL}"
+
     rpm -Uvh "${REPO_URL}"
 
-    if command -v dnf >/dev/null 2>&1; then
-        dnf clean all
-    elif command -v yum >/dev/null 2>&1; then
-        yum clean all
-    fi
+    case "${PACKAGE_MANAGER}" in
+
+        dnf)
+
+            dnf clean all
+            ;;
+
+        yum)
+
+            yum clean all
+            ;;
+
+    esac
 
     success "Repositório instalado."
 
 }
 
 ########################################
-# Instala Agent2
+# Instala Zabbix Agent2
 ########################################
 
 install_agent() {
