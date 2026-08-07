@@ -25,7 +25,17 @@ readonly SCRIPT_DOMAIN="monitoramento.centralserver.com.br"
 # Configuração do Zabbix
 ########################################
 
-readonly ZABBIX_VERSION="7.4"
+#
+# Versão padrão do Zabbix (EL8+, Ubuntu e Debian)
+#
+
+readonly DEFAULT_ZABBIX_VERSION="7.4"
+
+#
+# Será definida automaticamente pelo instalador
+#
+
+ZABBIX_VERSION=""
 
 readonly ZABBIX_SERVER="node01.centralserver.com.br,node02.centralserver.com.br"
 

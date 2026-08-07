@@ -27,10 +27,40 @@ detect_os() {
 
     case "${ID}" in
 
-        almalinux|rocky|rhel)
+        almalinux)
 
             OS="AlmaLinux"
             PACKAGE_MANAGER="dnf"
+            ;;
+
+        rocky)
+
+            OS="Rocky Linux"
+            PACKAGE_MANAGER="dnf"
+            ;;
+
+        rhel)
+
+            OS="Red Hat Enterprise Linux"
+            PACKAGE_MANAGER="dnf"
+            ;;
+
+        cloudlinux)
+
+            OS="CloudLinux"
+            PACKAGE_MANAGER="dnf"
+            ;;
+
+        ol)
+
+            OS="Oracle Linux"
+            PACKAGE_MANAGER="dnf"
+            ;;
+
+        centos)
+
+            OS="CentOS"
+            PACKAGE_MANAGER="yum"
             ;;
 
         ubuntu)
@@ -48,6 +78,7 @@ detect_os() {
         *)
 
             error "Sistema operacional não suportado: ${PRETTY_NAME}"
+
             ;;
 
     esac
@@ -105,8 +136,7 @@ select_install_mode() {
 
             2)
 
-                warning "O modo Ferramentas estará disponível na versão 1.1.0."
-
+                warning "O modo Ferramentas será disponibilizado na versão 1.1.0."
                 sleep 2
                 ;;
 
@@ -119,7 +149,6 @@ select_install_mode() {
             *)
 
                 warning "Opção inválida."
-
                 sleep 1
                 ;;
 
@@ -141,7 +170,11 @@ ask_hostname() {
     title "Hostname"
 
     HOSTNAME_ZABBIX="$(hostnamectl --static 2>/dev/null || hostname)"
-    HOSTNAME_FQDN="$(hostname -f 2>/dev/null || echo "Não disponível")"
+    HOSTNAME_FQDN="$(hostname -f 2>/dev/null || true)"
+
+    if [[ -z "${HOSTNAME_FQDN}" || "${HOSTNAME_FQDN}" == "${HOSTNAME_ZABBIX}" ]]; then
+        HOSTNAME_FQDN="Não configurado"
+    fi
 
     echo "Hostname detectado : ${HOSTNAME_ZABBIX}"
     echo "FQDN              : ${HOSTNAME_FQDN}"
@@ -200,6 +233,7 @@ show_summary() {
     print_field "Versão"        "${OS_VERSION}"
     print_field "Gerenciador"   "${PACKAGE_MANAGER}"
     print_field "Hostname"      "${HOSTNAME_ZABBIX}"
+    print_field "Modo"          "${INSTALL_MODE}"
 
     echo
 
