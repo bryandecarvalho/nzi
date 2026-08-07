@@ -7,3 +7,9 @@ readonly SCRIPT_AUTHOR="Bryan Carvalho"
 readonly SCRIPT_COMPANY="Nevolus"
 
 readonly SCRIPT_DOMAIN="monitoramento.centralserver.com.br"
+
+# Variáveis de execução
+OS=""
+VERSION=""
+PACKAGE_MANAGER=""
+INSTALL_MODE=""
