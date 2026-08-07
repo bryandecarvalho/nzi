@@ -78,7 +78,7 @@ nzi/
 Clone o projeto:
 
 ```bash
-git clone https://github.com/SEU_USUARIO/nzi.git
+git clone https://github.com/bryandecarvalho/nzi.git
 ```
 
 Acesse o diretório:
