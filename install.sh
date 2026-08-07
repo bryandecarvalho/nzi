@@ -18,6 +18,7 @@ BASE_DIR="$(cd "$(dirname "$0")" && pwd)"
 ########################################
 
 source "${BASE_DIR}/conf/config.sh"
+source "${BASE_DIR}/conf/repos.sh"
 
 ########################################
 # Carrega Bibliotecas
@@ -63,7 +64,7 @@ main() {
     pause
 
     select_zabbix_version
-    
+
     ####################################
     # Instalação
     ####################################
