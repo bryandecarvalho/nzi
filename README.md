@@ -1,58 +1,59 @@
 # Nevolus Zabbix Installer (NZI)
 
-<p align="center">
-  <img src="https://img.shields.io/badge/Version-1.0.0-blue.svg">
-  <img src="https://img.shields.io/badge/Linux-AlmaLinux%20|%20Ubuntu%20|%20Debian-success">
-  <img src="https://img.shields.io/badge/Zabbix-Agent2-red">
-  <img src="https://img.shields.io/badge/License-MIT-green">
-</p>
+Automatize a instalação e configuração do **Zabbix Agent2** em distribuições Linux de forma simples, rápida e padronizada.
 
 ---
 
-## 📖 Sobre
-
-O **Nevolus Zabbix Installer (NZI)** é uma ferramenta desenvolvida para automatizar a instalação e configuração do **Zabbix Agent2** em distribuições Linux suportadas.
-
-O objetivo do projeto é padronizar a instalação do agente Zabbix, reduzindo o tempo de implantação e minimizando erros de configuração em ambientes de produção.
-
----
-
-## ✨ Funcionalidades
+## Funcionalidades
 
 - Instalação automática do Zabbix Agent2
+- Configuração automática do Agent2
 - Instalação dos plugins oficiais
-- Configuração automática do Agent
-- Configuração do Firewall
-- Inicialização automática do serviço
-- Backup do arquivo de configuração
+- Configuração automática do Firewall
+- Inicialização e habilitação do serviço
 - Detecção automática do Sistema Operacional
 - Detecção automática do Hostname
-- Interface interativa em terminal
+- Seleção automática da versão do Zabbix
+- Catálogo centralizado de repositórios
+- Estrutura modular para facilitar manutenção
 
 ---
 
-## ✅ Sistemas Operacionais Suportados
+## Sistemas Operacionais Suportados
 
-| Sistema Operacional | Status |
-|---------------------|--------|
-| AlmaLinux 8 | ✅ |
-| AlmaLinux 9 | ✅ |
-| AlmaLinux 10 | ✅ |
-| Ubuntu 22.04 LTS | ✅ |
-| Ubuntu 24.04 LTS | ✅ |
-| Debian 11 | ✅ |
-| Debian 12 | ✅ |
+| Sistema | Versão do Zabbix |
+|---------|------------------|
+| AlmaLinux 8 | 7.4 |
+| AlmaLinux 9 | 7.4 |
+| AlmaLinux 10 | 7.4 |
+| Rocky Linux 8 | 7.4 |
+| Rocky Linux 9 | 7.4 |
+| Rocky Linux 10 | 7.4 |
+| Red Hat Enterprise Linux 8 | 7.4 |
+| Red Hat Enterprise Linux 9 | 7.4 |
+| Red Hat Enterprise Linux 10 | 7.4 |
+| Oracle Linux 8 | 7.4 |
+| Oracle Linux 9 | 7.4 |
+| CloudLinux 7 | 6.0 LTS |
+| CloudLinux 8 | 7.4 |
+| CloudLinux 9 | 7.4 |
+| CentOS 7 | 6.0 LTS |
+| Ubuntu 22.04 | 7.4 |
+| Ubuntu 24.04 | 7.4 |
+| Debian 11 | 7.4 |
+| Debian 12 | 7.4 |
 
 ---
 
-## 📦 Estrutura do Projeto
+# Estrutura do Projeto
 
 ```
-nzi/
-├── conf/
-│   └── config.sh
+nzi
+├── conf
+│   ├── config.sh
+│   └── repos.sh
 │
-├── lib/
+├── lib
 │   ├── banner.sh
 │   ├── colors.sh
 │   ├── configure.sh
@@ -66,14 +67,12 @@ nzi/
 │
 ├── install.sh
 ├── LICENSE
-├── CHANGELOG.md
-├── README.md
-└── .gitattributes
+└── README.md
 ```
 
 ---
 
-## 🚀 Como utilizar
+# Como utilizar
 
 Clone o projeto:
 
@@ -81,19 +80,19 @@ Clone o projeto:
 git clone https://github.com/bryandecarvalho/nzi.git
 ```
 
-Acesse o diretório:
+Entre na pasta:
 
 ```bash
 cd nzi
 ```
 
-Conceda permissão de execução:
+Dê permissão de execução:
 
 ```bash
 chmod +x install.sh
 ```
 
-Execute como **root**:
+Execute como root:
 
 ```bash
 sudo ./install.sh
@@ -101,105 +100,93 @@ sudo ./install.sh
 
 ---
 
-## ⚙️ O instalador realiza automaticamente
+# Fluxo de Instalação
 
-- Detecta o Sistema Operacional
-- Detecta a versão da distribuição
-- Detecta o Hostname da máquina
-- Instala o repositório oficial do Zabbix
-- Instala o Zabbix Agent2
-- Instala os plugins oficiais
-- Configura o Agent2
-- Configura o Firewall
-- Habilita e inicia o serviço
-- Exibe um resumo final da instalação
+O NZI executa automaticamente as seguintes etapas:
 
----
-
-## 📁 Arquivos Configurados
-
-Agent2
-
-```
-/etc/zabbix/zabbix_agent2.conf
-```
-
-Backup automático
-
-```
-/etc/zabbix/zabbix_agent2.conf.bak.<DATA>
-```
+1. Detecta o Sistema Operacional
+2. Detecta a versão do Sistema
+3. Detecta o Hostname
+4. Permite alterar o Hostname (opcional)
+5. Seleciona automaticamente a versão do Zabbix
+6. Obtém o repositório adequado
+7. Instala o repositório oficial
+8. Instala o Zabbix Agent2
+9. Instala os plugins oficiais
+10. Configura o Agent2
+11. Configura o Firewall
+12. Habilita e inicia o serviço
+13. Exibe o resumo da instalação
 
 ---
 
-## 🔥 Firewall
+# Arquitetura
 
-### firewalld
+O projeto é dividido em módulos independentes.
 
-Libera automaticamente:
-
-```
-10050/TCP
-```
-
----
-
-## 🔧 Serviço
-
-Após a instalação:
-
-```bash
-systemctl status zabbix-agent2
-```
-
-Iniciar manualmente:
-
-```bash
-systemctl start zabbix-agent2
-```
-
-Reiniciar:
-
-```bash
-systemctl restart zabbix-agent2
-```
+| Arquivo | Responsabilidade |
+|----------|------------------|
+| config.sh | Configurações gerais |
+| repos.sh | Catálogo de repositórios oficiais |
+| menus.sh | Menus e interação com usuário |
+| installer.sh | Instalação do Agent2 |
+| configure.sh | Configuração do Agent2 |
+| plugins.sh | Instalação dos plugins |
+| firewall.sh | Configuração do Firewall |
+| service.sh | Inicialização do serviço |
+| summary.sh | Resumo da instalação |
 
 ---
 
-## 📋 Roadmap
+# Repositórios
 
-### v1.0.0
+O NZI utiliza apenas os repositórios oficiais do Zabbix.
 
-- Instalação automatizada
-- Configuração do Agent
+Todos os links ficam centralizados em:
+
+```
+conf/repos.sh
+```
+
+Isso facilita futuras atualizações de versões e inclusão de novos sistemas operacionais.
+
+---
+
+# Roadmap
+
+## v1.0.0
+
+- Instalação automática
+- Configuração automática
+- Plugins oficiais
 - Firewall
-- Plugins
-- Serviço
+- Detecção do Sistema Operacional
+- Detecção do Hostname
+- Catálogo centralizado de repositórios
 
-### v1.1.0
+## v1.1.0
 
-- Ferramentas de manutenção
-- Atualização do Agent2
-- Reconfiguração do Agent
-- Instalação individual de plugins
+- Menu Ferramentas
+- Reconfiguração do Agent2
+- Atualização automática
+- Reinstalação de plugins
+- Reinício de serviços
 
-### v1.2.0
+## v1.2.0
 
-- Instalação silenciosa (CLI)
-- Arquivo de configuração (.env)
-- Logs detalhados
-
----
-
-## 🤝 Contribuição
-
-Contribuições são bem-vindas.
-
-Caso encontre algum problema, abra uma Issue ou envie um Pull Request.
+- Instalação silenciosa (Silent Mode)
+- Parâmetros via linha de comando
+- Arquivo de resposta
 
 ---
 
-## 👨‍💻 Autor
+# Licença
+
+Este projeto está licenciado sob a licença MIT.
+
+---
+
+# Autor
 
 **Bryan Carvalho**
 
@@ -209,14 +196,20 @@ Nevolus
 
 ---
 
-## 📄 Licença
+# Contribuição
 
-Este projeto está licenciado sob a licença MIT.
+Contribuições são bem-vindas.
+
+Caso encontre algum problema, abra uma Issue ou envie um Pull Request.
 
 ---
 
-# NZI
+# Status
 
-Nevolus Zabbix Installer
+🚧 Em desenvolvimento
 
-Versão 1.0.0
+Versão atual:
+
+```
+v1.0.0
+```
